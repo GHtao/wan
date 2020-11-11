@@ -1,0 +1,189 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'android-aspectjx'
+apply plugin: 'com.hujiang.android-aspectjx'
+apply plugin: 'kotlin-kapt'
+//apply plugin: 'me.ele.lancet'
+//apply plugin: 'com.tencent.tinker.patch'
+apply plugin: 'com.gt.plugin_test'
+
+
+plugin_test{
+    pluginName "gt"
+    pluginNumber 100
+}
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.gt.wan_gt"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'// , 'x86', 'x86_64'
+        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+//gradle会解析build.gradle文件，afterEvaluate解析完成之后再执行
+afterEvaluate {
+    android.applicationVariants.all{variant->
+        System.out.println("name:"+variant.name)
+        def capitalizeName =  variant.name.capitalize()
+        def task = project.getTasks().findByName("transformClassesWithAjxFor"+capitalizeName)
+        task.doFirst {//在gradle中执行transformClassesWithAjxFor任务才会调用
+            def fileCollection = task.getInputs().files
+            fileCollection.forEach{f->
+                def path = f.getAbsolutePath()
+                //可以得到想要的class 或者jar文件 然后进行asm字节码插桩
+                System.out.println("file path:"+path)
+            }
+        }
+    }
+}
+//aspectjx {
+//排除所有package路径中包含`android.support`的class文件及库（jar文件）
+//    include 支持* 和**匹配
+//    exclude 'android.support'
+//    可以开关功能
+//    enabled false
+//}
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.core:core-ktx:$rootProject.ext.core_ktx"
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.appcompat"
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation project(path: ':fragmentation_core')
+
+    implementation "androidx.lifecycle:lifecycle-service:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-process:2.2.0"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.lifecycle_viewmodel_ktx"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    implementation 'org.greenrobot:eventbus:3.2.0'
+
+    //https://github.com/square/retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.converterGsonVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.adapterRxjava2Version"
+
+    //https://github.com/square/okhttp
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.ext.okHttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.loggingInterceptorVersion"
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+
+    //https://github.com/ReactiveX/RxAndroid
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxandroidVersion"
+
+    //https://github.com/google/gson
+    implementation "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+
+    implementation "com.google.android.material:material:$rootProject.ext.materialVersion"
+    implementation "com.airbnb.android:lottie:3.4.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1'
+    //ObjectBox
+    debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion"
+    releaseImplementation "io.objectbox:objectbox-android:$objectboxVersion"
+    implementation "io.objectbox:objectbox-kotlin:$objectboxVersion"
+
+    //ui
+    implementation  'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
+    implementation  'com.scwang.smart:refresh-header-material:2.0.1'    //谷歌刷新头
+    implementation  'com.scwang.smart:refresh-header-radar:2.0.1'
+    implementation  'com.scwang.smart:refresh-footer-ball:2.0.1'        //球脉冲加载
+    implementation  'com.scwang.smart:refresh-header-classics:2.0.1'    //经典刷新头
+    implementation  'com.scwang.smart:refresh-footer-classics:2.0.1'    //经典加载
+
+    implementation "com.youth.banner:banner:1.4.10"
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.just.agentweb:agentweb:4.0.2' // (必选)
+    implementation 'me.jessyan:autosize:1.2.1'
+
+    implementation 'com.tencent:mmkv-static:1.2.2'
+
+    //crash
+    implementation 'com.iqiyi.xcrash:xcrash-android-lib:2.4.9'
+//    implementation 'me.ele:lancet-base:1.0.6'
+
+    def work_version = "2.3.4"
+    // Kotlin + coroutines
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
+    implementation 'org.aspectj:aspectjrt:1.9.5'
+    implementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
+
+//    implementation('com.tencent.tinker:tinker-android-lib:1.9.1')
+
+    implementation group: "com.tencent.matrix", name: "matrix-android-lib", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-android-commons", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-trace-canary", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-android", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-common", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-io-canary", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-sqlite-lint-android-sdk", version: MATRIX_VERSION, changing: true
+
+    implementation 'com.alibaba:arouter-api:1.5.0'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
+}
+apply plugin: 'com.tencent.matrix-plugin'
+matrix {
+    trace {
+        enable = false	//if you don't want to use trace canary, set false
+        baseMethodMapFile = "${project.buildDir}/matrix_output/Debug.methodmap"
+        blackListFile = "${project.projectDir}/matrixTrace/blackMethodList.txt"
+    }
+}
+//apply plugin: 'com.gt.plugin_model'
+//buildscript {
+//    repositories {
+//        maven { url 'E:\\web\\apache-maven-3.3.3'}
+//    }
+//    dependencies {
+//        classpath 'com.gt.plugin:plugin:1.0.0'
+//    }
+//}
+
+apply plugin: 'io.objectbox' // after applying Android plugin

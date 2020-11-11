@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/common_tool_bar"
+    android:layout_width="match_parent"
+    android:background="@mipmap/blue_gradient_bg"
+    android:layout_height="@dimen/dp_54">
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/common_tool_bar_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_4"
+        android:padding="@dimen/dp_10"
+        app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+
+    <TextView
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxLength="10"
+        android:id="@+id/common_tool_bar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="导航"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_16"/>
+
+
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/common_tool_bar_usage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_68"
+        android:padding="@dimen/dp_10"
+        app:srcCompat="@drawable/ic_usage" />
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/common_tool_bar_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:padding="@dimen/dp_10"
+        app:srcCompat="@drawable/ic_search_white_24dp" />
+</RelativeLayout>

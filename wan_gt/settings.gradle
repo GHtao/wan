@@ -1,0 +1,4 @@
+include ':plugin'
+include ':fragmentation_core'
+include ':app'
+rootProject.name = "wan_gt"

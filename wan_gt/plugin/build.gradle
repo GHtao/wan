@@ -1,0 +1,28 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+}
+
+repositories {
+    mavenCentral()
+}
+//group和version在后面使用自定义插件的时候会用到
+group='com.gt.plugin'
+version='1.0.0'
+
+uploadArchives {
+    //点击会将jar包提交到本地svn
+    repositories {
+        mavenDeployer {
+            //提交到远程服务器：
+            // repository(url: "http://www.xxx.com/repos") {
+            //    authentication(userName: "admin", password: "admin")
+            // }
+            //本地的Maven地址设置为D:/repos
+            repository(url: uri('E:\\web\\apache-maven-3.3.3'))
+        }
+    }
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--指定动画的start和end状态-->
+    <!--transitionToStart 过渡到 元素 motion::constraintSetStart 属性指定的状态，有过度动画效果。
+
+    transitionToEnd 过渡到 元素motion:constraintSetEnd 属性指定的状态，有过度动画效果。
+    jumpToStart 直接跳转到 元素 motion::constraintSetStart 属性指定的状态，没有动画效果。
+    jumpToEnd 直接跳转到 元素 motion:constraintSetEnd 属性指定的状态。
+    toggle 默认值就是这个，在 元素motion:constraintSetStart和 motion:constraintSetEnd 指定的布局之间切换，
+        如果处于start状态就过度到end状态，如果处于end状态就过度到start状态，有过度动画。
+    -->
+    <Transition
+        app:constraintSetStart="@+id/start"
+        app:constraintSetEnd="@+id/end"
+        app:duration="500">
+        <OnClick app:clickAction="toggle" />
+        <!--在动画运动过程去改变一些属性-->
+        <KeyFrameSet>
+
+        </KeyFrameSet>
+    </Transition>
+    <!--存放一些view 约束和属性的的集合-->
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/motion_header"
+            android:rotation="0"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/dp_100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_200"/>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@+id/motion_header"
+            android:rotation="90"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"/>
+    </ConstraintSet>
+</MotionScene>

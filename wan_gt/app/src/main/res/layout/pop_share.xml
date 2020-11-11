@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="@dimen/dp_16"
+    android:elevation="@dimen/dp_6"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/web_pop_share"
+        android:drawablePadding="@dimen/dp_10"
+        android:textSize="@dimen/sp_16"
+        android:text="分享"
+        android:drawableStart="@drawable/ic_action_share"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/web_pop_sys"
+        android:layout_marginTop="@dimen/dp_16"
+        android:drawablePadding="@dimen/dp_10"
+        android:textSize="@dimen/sp_16"
+        android:text="用系统浏览器打开"
+        android:drawableStart="@drawable/ic_action_browser"
+        app:layout_constraintTop_toBottomOf="@id/web_pop_share"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
