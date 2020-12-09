@@ -10,6 +10,9 @@ import android.view.animation.LinearInterpolator
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gt.core.base.BaseFragment
 import com.gt.wan_gt.R
@@ -26,7 +29,7 @@ import kotlinx.coroutines.launch
  */
 class TestFragment : BaseFragment<TestFragmentVM>() {
 
-    override fun setContentView() = R.layout.fragment_test_motion
+    override fun setContentView() = R.layout.fragment_test
 
     override fun initView(view: View?, savedInstanceState: Bundle?) {
         //用这样的方式代替之前的startActivityForResult 解耦
@@ -35,6 +38,25 @@ class TestFragment : BaseFragment<TestFragmentVM>() {
 //
 //        }
 //        activityResult.launch(Intent(requireContext(),TestFragment::class.java))
+        test_rv.addItemDecoration(DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL))
+        val arrayList = ArrayList<TestBean>()
+        for(i in 1 ..19){
+            val testBean = TestBean().apply {
+                if(i % 10 ==0){
+                    isAd = true
+                    image = R.mipmap.icon_wan_android
+                }else{
+                    isAd = false
+                    title = "position-$i"
+                }
+            }
+            arrayList.add(testBean)
+        }
+        val adapter = TestAdapter()
+        adapter.data = arrayList
+        test_rv.adapter = adapter
+        test_rv.layoutManager = LinearLayoutManager(requireContext())
+        adapter.notifyDataSetChanged()
     }
 
     override fun createVM(): TestFragmentVM {

@@ -48,7 +48,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <com.gt.wan_gt.views.WaveDisView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/test_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>
