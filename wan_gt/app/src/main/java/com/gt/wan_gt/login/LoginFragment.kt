@@ -35,7 +35,7 @@ class LoginFragment:BaseFragment<LoginFragmentVM>() {
         }
 
         login_back.setOnClickListener {
-            pop()
+            requireActivity().finish()
         }
     }
 
@@ -49,7 +49,7 @@ class LoginFragment:BaseFragment<LoginFragmentVM>() {
             result.observe(this@LoginFragment, Observer {
                 if(it.flag){
                     ToastUtil.showToast("登录成功")
-                    pop()
+                    requireActivity().finish()
                 }else{
                     ToastUtil.showToast("登录失败:${it.any}")
                 }

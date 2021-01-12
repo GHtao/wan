@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
  * time 2020/7/14 0014
  * author GT
  */
-class LoginFragmentVM:BaseViewModel() {
+class LoginActivityVM:BaseViewModel() {
 
     /**
      * 登录方法

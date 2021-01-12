@@ -168,8 +168,9 @@ dependencies {
     implementation 'com.alibaba:arouter-api:1.5.0'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
 
-
+    implementation 'com.jeremyliao:live-event-bus-x:1.7.2'
     implementation 'com.github.giswangsj:RvParallaxImageView:1.0.1'
+    implementation 'com.zackratos.ultimatebarx:ultimatebarx:0.4.1'
 }
 apply plugin: 'com.tencent.matrix-plugin'
 matrix {

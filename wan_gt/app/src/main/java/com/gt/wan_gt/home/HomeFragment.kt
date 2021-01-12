@@ -1,12 +1,15 @@
 package com.gt.wan_gt.home
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +18,7 @@ import com.gt.core.base.BaseFragment
 import com.gt.wan_gt.R
 import com.gt.wan_gt.WanApp
 import com.gt.wan_gt.api.bean.FeedArticleBean
+import com.gt.wan_gt.common.WanMMKV
 import com.gt.wan_gt.common.WanSp
 import com.gt.wan_gt.common.interfaces.IJumpToTop
 import com.gt.wan_gt.common.dialog.loadDialog
@@ -22,6 +26,7 @@ import com.gt.wan_gt.common.event.EventBean
 import com.gt.wan_gt.index.IndexFragment
 import com.gt.wan_gt.knowledge_detail.KnowledgeDetailFragment
 import com.gt.wan_gt.knowledge_detail.list.KnowledgeDetailListFragment
+import com.gt.wan_gt.login.LoginActivity
 import com.gt.wan_gt.login.LoginFragment
 import com.gt.wan_gt.utils.ToastUtil
 import com.gt.wan_gt.web_view.WebViewActivity
@@ -31,6 +36,7 @@ import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
 import com.youth.banner.loader.ImageLoader
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.*
 import me.yokeyword.fragmentation.ISupportFragment
 import me.yokeyword.fragmentation.support.SupportFragment
 import org.greenrobot.eventbus.EventBus
@@ -95,13 +101,27 @@ class HomeFragment:BaseFragment<HomeFragmentVM>(),IJumpToTop {
         homeAdapter.setOnItemClickListener { adapter, view, position ->
             val article = articleList[position]
             clickItem = position
-            WebViewActivity.startWebView(mParentFragment.requireActivity(),Bundle().apply {
-                putBoolean(WebViewActivity.ACTIVITY_IS_COMMON,true)
-                putBoolean(WebViewActivity.ACTIVITY_IS_LIKE,article.collect)
-                putString(WebViewActivity.ACTIVITY_WEB_NAME,article.title)
-                putString(WebViewActivity.ACTIVITY_LINK_URL,article.link)
-                putInt(WebViewActivity.ACTIVITY_ARTICLE_ID,article.id)
-            },true)
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+                //处理回调的数据
+                Log.e("gt","result code:${it.resultCode}")
+                it.data
+            }.launch(Intent().apply {
+                component = ComponentName("com.gt.wan_gt","com.gt.wan_gt.web_view.WebViewActivity")
+                putExtra(WebViewActivity.ACTIVITY_BUNDLE,Bundle().apply {
+                    putBoolean(WebViewActivity.ACTIVITY_IS_COMMON,true)
+                    putBoolean(WebViewActivity.ACTIVITY_IS_LIKE,article.collect)
+                    putString(WebViewActivity.ACTIVITY_WEB_NAME,article.title)
+                    putString(WebViewActivity.ACTIVITY_LINK_URL,article.link)
+                    putInt(WebViewActivity.ACTIVITY_ARTICLE_ID,article.id)
+                })
+            })
+//            WebViewActivity.startWebView(mParentFragment.requireActivity(),Bundle().apply {
+//                putBoolean(WebViewActivity.ACTIVITY_IS_COMMON,true)
+//                putBoolean(WebViewActivity.ACTIVITY_IS_LIKE,article.collect)
+//                putString(WebViewActivity.ACTIVITY_WEB_NAME,article.title)
+//                putString(WebViewActivity.ACTIVITY_LINK_URL,article.link)
+//                putInt(WebViewActivity.ACTIVITY_ARTICLE_ID,article.id)
+//            },true)
         }
         homeAdapter.setOnItemChildClickListener { adapter, view, position ->
             when(view.id){
@@ -141,8 +161,9 @@ class HomeFragment:BaseFragment<HomeFragmentVM>(),IJumpToTop {
      * 处理收藏事件
      */
     private fun handleCollectEvent(position:Int){
-        if(!WanSp.getLoginState()){
-            (parentFragment as SupportFragment).start(LoginFragment())
+        if(!WanMMKV.getLoginState()){
+            LoginActivity.start(requireActivity())
+//            (parentFragment as SupportFragment).start(LoginFragment())
             ToastUtil.showToast("请先登录")
             return
         }

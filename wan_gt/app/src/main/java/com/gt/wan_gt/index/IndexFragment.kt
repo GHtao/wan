@@ -19,11 +19,13 @@ import com.gt.core.base.BaseFragment
 import com.gt.wan_gt.R
 import com.gt.wan_gt.about_us.AboutUsFragment
 import com.gt.wan_gt.collect.CollectFragment
+import com.gt.wan_gt.common.WanMMKV
 import com.gt.wan_gt.common.WanSp
 import com.gt.wan_gt.common.interfaces.IJumpToTop
 import com.gt.wan_gt.common.dialog.loadDialog
 import com.gt.wan_gt.home.HomeFragment
 import com.gt.wan_gt.knowledge_hierarchy.KnowledgeHierarchyFragment
+import com.gt.wan_gt.login.LoginActivity
 import com.gt.wan_gt.login.LoginFragment
 import com.gt.wan_gt.main.MainActivity
 import com.gt.wan_gt.navigation.NavigationFragment
@@ -105,14 +107,15 @@ class IndexFragment:BaseFragment<IndexFragmentVM>() {
         val item = index_nav_view.menu.findItem(R.id.nav_menu_logout)
         val loginBtn = index_nav_view.getHeaderView(0)
             .findViewById<Button>(R.id.nav_head_login)
-        if(WanSp.getLoginState()){
-            loginBtn.text = WanSp.getLoginAccount()
+        if(WanMMKV.getLoginState()){
+            loginBtn.text = WanMMKV.getLoginAccount()
             loginBtn.setOnClickListener(null)
             item.isVisible = true
         }else{
             loginBtn.text = "登录"
             loginBtn.setOnClickListener {//登录
-                    mainActivity.startFragment(LoginFragment())
+                    LoginActivity.start(mainActivity)
+//                    mainActivity.startFragment(LoginFragment())
                 }
             item.isVisible = false
         }
@@ -239,7 +242,8 @@ class IndexFragment:BaseFragment<IndexFragmentVM>() {
             })
             result.observe(this@IndexFragment, Observer {
                 if(it.flag){
-                    mainActivity.startFragment(LoginFragment())
+                    LoginActivity.start(mainActivity)
+//                    mainActivity.startFragment(LoginFragment())
                 }else{
                     ToastUtil.showToast("退出失败:${it.any}")
                 }

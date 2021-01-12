@@ -3,9 +3,12 @@ package com.gt.wan_gt.main
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Bundle
+import android.graphics.Color
+import android.os.*
+import android.provider.CalendarContract
 import android.util.Log
+import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
@@ -21,9 +24,12 @@ import com.gt.wan_gt.utils.FileChooseUtil
 import com.gt.wan_gt.utils.StatusBarUtil
 import com.gt.wan_gt.views.AppFloatView
 import com.gt.wan_gt.web_view.WebViewActivity
+import com.zackratos.ultimatebarx.library.UltimateBarX
 import me.yokeyword.fragmentation.ISupportFragment
 import org.greenrobot.eventbus.EventBus
 import java.util.*
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
     private val KEY_REQUEST_CODE = 100
@@ -43,22 +49,27 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         Manifest.permission.READ_PHONE_STATE,
         Manifest.permission.BLUETOOTH_ADMIN
     )
+
     override fun contentView(savedInstanceState: Bundle?) = R.layout.activity_main
+
 
     override fun initData(savedInstanceState: Bundle?) {
         initPermissions()
         StatusBarUtil.setStatusColor(window,
             ContextCompat.getColor(this, R.color.main_status_bar_blue),
             1f)
-
+//        UltimateBarX.with(this)
+//            .colorRes(R.color.main_status_bar_blue)
+//            .color(Color.RED)
+//            .drawableRes(R.mipmap.blue_gradient_bg)
+//            .applyStatusBar()
 //        ARouter.getInstance()
 //            .build("/test/route")
 //            .withString("aaa","bundle aaa")
 //            .navigation()
-//        loadRootFragment(R.id.fl_content, IndexFragment())
-        loadRootFragment(R.id.fl_content, TestFragment())
+        loadRootFragment(R.id.fl_content, IndexFragment())
+//        loadRootFragment(R.id.fl_content, TestFragment())
 //        AppFloatView.show()
-
     }
 
     /**

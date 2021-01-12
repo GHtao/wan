@@ -27,7 +27,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.gt.core.base.BaseActivity
 import com.gt.wan_gt.R
+import com.gt.wan_gt.common.WanMMKV
 import com.gt.wan_gt.common.WanSp
+import com.gt.wan_gt.login.LoginActivity
 import com.gt.wan_gt.login.LoginFragment
 import com.gt.wan_gt.utils.NetWorkUtil
 import com.gt.wan_gt.utils.StatusBarUtil
@@ -151,8 +153,8 @@ class WebViewActivity:BaseActivity<WebViewActivityVM>() {
                 common_tool_bar_usage.setImageResource(R.drawable.icon_like_article_not_selected)
             }
             common_tool_bar_usage.setOnClickListener {
-                if(!WanSp.getLoginState()){
-                    start(LoginFragment())
+                if(!WanMMKV.getLoginState()){
+                    LoginActivity.start(this)
                 }else{
                     if(isLike){
                         viewModel.cancelCollect(articleId)

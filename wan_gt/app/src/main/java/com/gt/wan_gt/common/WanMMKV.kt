@@ -8,6 +8,8 @@ import com.tencent.mmkv.MMKV
  */
 object WanMMKV {
     private val mmkv = MMKV.defaultMMKV()
+    //可以跨进程使用
+    private val mmkvUser = MMKV.mmkvWithID("user",MMKV.MULTI_PROCESS_MODE)
 
     /**
      * 登录账号
@@ -31,10 +33,10 @@ object WanMMKV {
      * 登录状态
      */
     fun setLoginState(state:Boolean){
-        mmkv.putBoolean("login_state", state)
+        mmkvUser.putBoolean("login_state", state)
     }
     fun getLoginState():Boolean{
-        return mmkv.getBoolean("login_state", false)
+        return mmkvUser.getBoolean("login_state", false)
     }
 
     /**

@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.gt.core.base.BaseFragment
 import com.gt.wan_gt.R
+import com.gt.wan_gt.common.WanMMKV
 import com.gt.wan_gt.common.WanSp
 import com.gt.wan_gt.login.LoginFragment
 import com.gt.wan_gt.utils.NetWorkUtil
@@ -181,7 +182,7 @@ class WebViewFragment:BaseFragment<WebViewFragmentVM>() {
                 common_tool_bar_usage.setImageResource(R.drawable.icon_like_article_not_selected)
             }
             common_tool_bar_usage.setOnClickListener {
-                if(!WanSp.getLoginState()){
+                if(!WanMMKV.getLoginState()){
                     start(LoginFragment())
                 }else{
                     if(isLike!!){

@@ -56,6 +56,8 @@
             android:launchMode="singleInstance"/>
 
         <activity android:name=".a_route.ARouteTestActivity"/>
+        <activity android:name=".login.LoginActivity"
+            android:launchMode="singleInstance"/>
     </application>
 
 </manifest>

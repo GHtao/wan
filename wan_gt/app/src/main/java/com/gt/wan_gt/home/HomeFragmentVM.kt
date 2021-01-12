@@ -11,6 +11,7 @@ import com.gt.core.base.BaseViewModel
 import com.gt.wan_gt.api.WanApi
 import com.gt.wan_gt.api.bean.BannerBean
 import com.gt.wan_gt.api.bean.FeedArticleBean
+import com.gt.wan_gt.common.WanMMKV
 import com.gt.wan_gt.common.WanSp
 import com.youth.banner.Banner
 import kotlinx.coroutines.*
@@ -29,8 +30,8 @@ open class HomeFragmentVM:BaseViewModel() {
      * 获取home页面需要的数据
      */
     fun loadData(){
-        val loginAccount = WanSp.getLoginAccount()
-        val loginPassword = WanSp.getLoginPassword()
+        val loginAccount = WanMMKV.getLoginAccount()
+        val loginPassword = WanMMKV.getLoginPassword()
         launchUI({
             withContext(Dispatchers.IO){
                 if(!TextUtils.isEmpty(loginAccount) && !TextUtils.isEmpty(loginPassword)) {
