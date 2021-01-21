@@ -50,6 +50,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 //gradle会解析build.gradle文件，afterEvaluate解析完成之后再执行
 afterEvaluate {
